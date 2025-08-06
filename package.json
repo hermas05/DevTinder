@@ -1,0 +1,19 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "Tinder for devs",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node src/index.js",
+    "dev" : "nodemon src/index.js"
+  },
+  "keywords": [
+    "js",
+    "node.js"
+  ],
+  "author": "Hermas",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
