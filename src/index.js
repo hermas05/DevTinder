@@ -1,6 +1,7 @@
 const express = require("express");
 const dbConnect = require("./config/database");
 const User = require("./Models/user");
+const validator = require("validator");
 
 const app = express();
 
@@ -21,6 +22,9 @@ app.post("/signup", async (req, res) => {
   const doc = new User(req.body);
 
   try {
+    if (!validator.isStrongPassword(req.body.password ,  { minLength: 8, minNumbers: 1, minSymbols: 1 }) ) {
+        return res.status(400).send("Password is not strong enough");
+    }
     await doc.save();
     res.send("User created succesfully");
   } catch (err) {
@@ -77,7 +81,11 @@ app.delete("/user", async (req, res) => {
 app.patch("/user", async (req, res) => {
   const emailID = req.body.mail;
   try {
-    await User.findOneAndUpdate({ mail: emailID }, req.body);
+
+    if(req.body.firstName && req.body.firstName.length > 30){
+        return res.status(400).send("First name should be less than 30 characters");
+    }
+    await User.findOneAndUpdate({ mail: emailID }, req.body , { runvalidators : true });
     res.send("User updated successfully");
   } catch (err) {
     res.status(400).send("Failed to update user");

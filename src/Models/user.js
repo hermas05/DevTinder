@@ -5,9 +5,7 @@ const userSchema = new Schema({
     firstName : {
         type : String,
         required : true,
-        validator : (value)=>{
-            return value.length <= 30;
-        }
+       
     },
      lastName : {
         type : String,
@@ -27,7 +25,10 @@ const userSchema = new Schema({
      mail : {
         type : String,
         required : true,
-        unique : true
+        unique : true,
+        trim: true,  
+        lowercase: true,
+        match : /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     },
      password : {
         type : String,
@@ -40,7 +41,8 @@ const userSchema = new Schema({
         type : String,
         default : "This is about me section"
     }
-})
+    
+} , { timestamps: true })
 
 const User = mongoose.model("user" , userSchema)
 
